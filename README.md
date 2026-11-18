@@ -8,6 +8,17 @@
 
 ---
 
+## 🔗 Офіційні посилання для оцінювання (Module 11)
+
+* 🌐 **Працююча задеплоєна демо-версія (Live Demo HTTPS):**  
+  👉 **[https://memorial-wishes.vercel.app/](https://memorial-wishes.vercel.app/)**
+* 📦 **Репозиторій на GitHub:**  
+  👉 **[https://github.com/kryvychveronika/memorial-wishes](https://github.com/kryvychveronika/memorial-wishes)**
+* 📄 **Звіт про користувацьке тестування (PDF):**  
+  👉 **[`user_feedback_report.pdf`](user_feedback_report.pdf)**
+
+---
+
 ## 🌟 Про продукт та ідею
 
 Більшість ініціатив пам'яті обмежуються свічками в соцмережах або грошовими донатами. Багато людей прагнуть зробити щось щире, особисте та змістовне, але не знають, як саме. Водночас родини захисників хочуть бачити, що пам'ять про їхніх близьких жива і продовжує надихати світ.
