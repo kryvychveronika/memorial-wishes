@@ -1,0 +1,25 @@
+services:
+  # Backend Web Service
+  - type: web
+    name: memorial-wishes-api
+    runtime: python
+    buildCommand: "cd backend && pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate && python manage.py seed_wishes"
+    startCommand: "cd backend && gunicorn core.wsgi:application --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALLOWED_HOSTS
+        value: "*"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: memorial-db
+          property: connectionString
+
+databases:
+  # Managed PostgreSQL
+  - name: memorial-db
+    databaseName: memorial_db
+    user: memorial_user
+    plan: free

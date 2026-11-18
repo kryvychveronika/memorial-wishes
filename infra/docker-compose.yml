@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: memorial_db
+    environment:
+      POSTGRES_DB: memorial_db
+      POSTGRES_USER: memorial_user
+      POSTGRES_PASSWORD: memorial_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U memorial_user -d memorial_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: ../infra/backend.Dockerfile
+    container_name: memorial_backend
+    restart: always
+    environment:
+      - DEBUG=True
+      - SECRET_KEY=django-insecure-docker-secret-key-change-in-production
+      - ALLOWED_HOSTS=*
+      - DATABASE_URL=postgres://memorial_user:memorial_password@db:5432/memorial_db
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py seed_wishes &&
+             gunicorn core.wsgi:application --bind 0.0.0.0:8000 --workers 3"
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: ../infra/frontend.Dockerfile
+    container_name: memorial_frontend
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
