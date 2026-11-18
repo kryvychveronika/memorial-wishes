@@ -9,7 +9,7 @@ import ReportModal from './components/ReportModal';
 import AuthModal from './components/AuthModal';
 import GoogleCalendarModal from './components/GoogleCalendarModal';
 import { api } from './services/api';
-import { Sparkles, Heart, CheckCircle2, Flame, AlertCircle } from 'lucide-react';
+import { Flame, CheckCircle2, AlertCircle } from 'lucide-react';
 
 export default function App() {
   const [wishes, setWishes] = useState([]);
@@ -35,7 +35,7 @@ export default function App() {
 
   const showToast = (message, type = 'success') => {
     setToast({ message, type });
-    setTimeout(() => setToast(null), 4000);
+    setTimeout(() => setToast(null), 4500);
   };
 
   const loadWishes = async () => {
@@ -51,7 +51,6 @@ export default function App() {
   };
 
   useEffect(() => {
-    // Check initial user
     const savedUser = api.getCurrentUser();
     if (savedUser) setUser(savedUser);
 
@@ -67,34 +66,34 @@ export default function App() {
   const handleLogin = async (username, password) => {
     const res = await api.login(username, password);
     setUser(res.user);
-    showToast(`Вітаємо, ${res.user.username}! Ви успішно увійшли.`);
+    showToast(`Вітаємо, ${res.user.username}. Ви успішно увійшли.`);
     loadWishes();
   };
 
   const handleRegister = async (username, email, password) => {
     const res = await api.register(username, email, password);
     setUser(res.user);
-    showToast(`Акаунт створено! Ласкаво просимо, ${res.user.username}.`);
+    showToast(`Профіль створено. Ласкаво просимо, ${res.user.username}.`);
     loadWishes();
   };
 
   const handleLogout = () => {
     api.logout();
     setUser(null);
-    showToast('Ви вийшли з акаунту.');
+    showToast('Ви вийшли з профілю.');
     loadWishes();
   };
 
   const handleClaim = async (wish) => {
     if (!user) {
       setIsAuthOpen(true);
-      showToast('Будь ласка, увійдіть або зареєструйтесь, щоб взяти бажання.', 'info');
+      showToast('Будь ласка, увійдіть, щоб взяти бажання у роботу.', 'info');
       return;
     }
 
     try {
       await api.claimWish(wish.id);
-      showToast('Бажання закріплено за вами! Дякуємо за ваш внесок.');
+      showToast('Бажання закріплено за вами. Дякуємо за ваше щире серце.');
       await loadWishes();
       if (selectedWish && selectedWish.id === wish.id) {
         setSelectedWish((prev) => ({ ...prev, status: 'claimed', claimed_by: user.id }));
@@ -107,7 +106,7 @@ export default function App() {
   const handleUnclaim = async (wish) => {
     try {
       await api.unclaimWish(wish.id);
-      showToast('Бажання повернено до загального списку.');
+      showToast('Бажання повернено до загальної книги.');
       setSelectedWish(null);
       await loadWishes();
     } catch (err) {
@@ -118,7 +117,7 @@ export default function App() {
   const handleComplete = async (wishId, reportText, reportPhotoUrl) => {
     try {
       await api.completeWish(wishId, reportText, reportPhotoUrl);
-      showToast('Звіт збережено! Дякуємо за вшанування пам\'яті.');
+      showToast('Слова та фото вшанування збережено. Дякуємо за збережену пам\'ять.');
       setReportWish(null);
       setSelectedWish(null);
       await loadWishes();
@@ -130,7 +129,7 @@ export default function App() {
   const handleCreateWish = async (wishData) => {
     try {
       await api.createWish(wishData);
-      showToast('Бажання успішно опубліковано! Воно вже доступне в каталозі.');
+      showToast('Бажання воїна вписано до книги пам\'яті.');
       await loadWishes();
     } catch (err) {
       showToast(err.message, 'error');
@@ -149,21 +148,21 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
+    <div className="min-h-screen flex flex-col bg-[#fafaf9] text-stone-900 font-sans selection:bg-stone-200">
       {/* Toast Notification */}
       {toast && (
-        <div className="fixed top-20 right-4 z-50 animate-in slide-in-from-top-3 duration-300">
-          <div className={`flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl text-xs font-semibold border ${
+        <div className="fixed top-24 right-4 z-50 animate-in slide-in-from-top-3 duration-300">
+          <div className={`flex items-center gap-3 px-4 py-3 rounded-2xl shadow-xl text-xs font-medium border ${
             toast.type === 'error'
-              ? 'bg-rose-50 text-rose-800 border-rose-200'
+              ? 'bg-rose-50 text-rose-900 border-rose-200'
               : toast.type === 'info'
-              ? 'bg-blue-50 text-blue-800 border-blue-200'
-              : 'bg-emerald-50 text-emerald-800 border-emerald-200'
+              ? 'bg-stone-900 text-stone-100 border-stone-800'
+              : 'bg-stone-900 text-stone-100 border-stone-800'
           }`}>
             {toast.type === 'error' ? (
-              <AlertCircle className="w-4 h-4 text-rose-600" />
+              <AlertCircle className="w-4 h-4 text-rose-500" />
             ) : (
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <Flame className="w-4 h-4 text-amber-400" />
             )}
             <span>{toast.message}</span>
           </div>
@@ -179,55 +178,58 @@ export default function App() {
         onOpenAddWish={() => setIsAddWishOpen(true)}
       />
 
-      {/* Hero Section */}
+      {/* Hero */}
       <Hero
         onOpenAddWish={() => setIsAddWishOpen(true)}
         onScrollToCatalog={scrollToCatalog}
       />
 
-      {/* Main Content */}
-      <main id="catalog" className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+      {/* Catalog */}
+      <main id="catalog" className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-              Каталог бажань воїнів
+            <span className="text-[11px] font-semibold uppercase tracking-widest text-amber-800 block mb-1">
+              Книга спогадів та вчинків
+            </span>
+            <h2 className="font-serif text-3xl sm:text-5xl font-normal text-stone-900 tracking-tight leading-none">
+              Бажання полеглих воїнів
             </h2>
-            <p className="text-sm text-slate-500 mt-1">
-              Оберіть бажання, яке відгукується у вашому серці, та здійсніть його
+            <p className="text-xs sm:text-sm text-stone-500 font-light mt-2 max-w-xl">
+              Оберіть бажання, яке відгукується у вашому серці, та здійсніть його в пам'ять про захисника
             </p>
           </div>
 
-          <div className="text-xs text-slate-500">
-            Знайдено бажань: <strong className="text-slate-800 font-semibold">{wishes.length}</strong>
+          <div className="text-xs text-stone-400 font-light">
+            Усього в книзі: <strong className="text-stone-800 font-medium">{wishes.length}</strong>
           </div>
         </div>
 
         {/* Filters */}
         <Filters filters={filters} onChange={setFilters} />
 
-        {/* Cards Grid */}
+        {/* Wishes Grid */}
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-12">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-white rounded-2xl border border-slate-200 h-80 animate-pulse" />
+              <div key={i} className="bg-white rounded-2xl border border-stone-200 h-96 animate-pulse" />
             ))}
           </div>
         ) : wishes.length === 0 ? (
-          <div className="text-center py-16 bg-white rounded-3xl border border-slate-200 p-8">
-            <Flame className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-            <h3 className="text-base font-bold text-slate-800">Бажань за цими фільтрами не знайдено</h3>
-            <p className="text-xs text-slate-500 mt-1 mb-4">
+          <div className="text-center py-20 bg-white rounded-3xl border border-stone-200 p-8">
+            <Flame className="w-10 h-10 text-stone-300 mx-auto mb-3" />
+            <h3 className="font-serif text-2xl font-normal text-stone-800">Бажань за цими критеріями не знайдено</h3>
+            <p className="text-xs text-stone-500 mt-1 mb-5 font-light">
               Спробуйте змінити фільтри або скинути параметри пошуку.
             </p>
             <button
               onClick={() => setFilters({ category: 'all', difficulty: 'all', status: 'all', city: 'all', search: '' })}
-              className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700 transition"
+              className="px-5 py-2.5 rounded-xl border border-stone-300 text-xs font-medium text-stone-700 hover:bg-stone-50 transition"
             >
               Скинути фільтри
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {wishes.map((wish) => (
               <WishCard
                 key={wish.id}
@@ -242,16 +244,16 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 py-10 mt-16 text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <Flame className="w-4 h-4 text-amber-500" />
-            <span className="font-bold text-slate-800">Жива Пам'ять</span>
-            <span>— проект культури вшанування пам'яті полеглих воїнів</span>
+      <footer className="bg-white border-t border-stone-200 py-12 mt-20 text-xs text-stone-500 font-light">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-3">
+            <Flame className="w-4 h-4 text-amber-600" />
+            <span className="font-serif text-lg font-medium text-stone-900 not-italic">Жива Пам'ять</span>
+            <span className="text-stone-400">— культура вшанування пам'яті через вчинки</span>
           </div>
 
-          <div className="text-center md:text-right">
-            Команда: <strong>Dariia Kravchenko</strong> & <strong>Veronika Kryvych</strong> | Module 11 Prototype
+          <div className="text-center md:text-right text-stone-400">
+            Команда: <strong className="text-stone-700 font-medium">Dariia Kravchenko</strong> & <strong className="text-stone-700 font-medium">Veronika Kryvych</strong> | Module 11 Prototype
           </div>
         </div>
       </footer>

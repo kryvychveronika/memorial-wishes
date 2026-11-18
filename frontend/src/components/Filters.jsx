@@ -1,53 +1,53 @@
 import React from 'react';
-import { Search, SlidersHorizontal, MapPin, Tag } from 'lucide-react';
+import { Search } from 'lucide-react';
 
 const CATEGORIES = [
-  { id: 'all', label: 'Всі категорії' },
-  { id: 'travel', label: '✈️ Подорожі' },
-  { id: 'sport', label: '🏃 Спорт' },
-  { id: 'food', label: '🍕 Їжа' },
-  { id: 'culture', label: '📚 Культура' },
-  { id: 'family', label: '👨‍👩‍👧 Сім\'я' },
+  { id: 'all', label: 'Всі бажання' },
+  { id: 'travel', label: 'Подорожі та місця' },
+  { id: 'sport', label: 'Спорт та виклики' },
+  { id: 'food', label: 'Смак та затишок' },
+  { id: 'culture', label: 'Книги та культура' },
+  { id: 'family', label: 'Родина та дім' },
 ];
 
 const DIFFICULTIES = [
   { id: 'all', label: 'Будь-яка складність' },
   { id: 'free', label: 'Безкоштовно / Символічно' },
-  { id: 'budget', label: 'Потребує витрат' },
+  { id: 'budget', label: 'Потребує фінансових витрат' },
 ];
 
 const STATUSES = [
   { id: 'all', label: 'Всі статуси' },
-  { id: 'approved', label: 'Очікує волонтера' },
-  { id: 'claimed', label: 'В роботі' },
-  { id: 'completed', label: 'Виконано' },
+  { id: 'approved', label: 'Очікує виконання' },
+  { id: 'claimed', label: 'Зараз у роботі' },
+  { id: 'completed', label: 'Вшановано (Виконано)' },
 ];
 
 export default function Filters({ filters, onChange }) {
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 p-5 mb-8 shadow-sm">
+    <div className="bg-white rounded-2xl border border-stone-200/90 p-6 mb-10 shadow-xs">
       {/* Search Bar */}
       <div className="relative mb-5">
-        <Search className="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+        <Search className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-stone-400" />
         <input
           type="text"
           value={filters.search}
           onChange={(e) => onChange({ ...filters, search: e.target.value })}
-          placeholder="Пошук за ім'ям воїна, містом або назвою бажання..."
-          className="w-full pl-11 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 bg-slate-50/50"
+          placeholder="Пошук за ім'ям захисника, містом або суттю бажання..."
+          className="w-full pl-11 pr-4 py-3 rounded-xl border border-stone-200 text-sm focus:outline-none focus:border-stone-800 bg-stone-50/50 text-stone-800 placeholder:text-stone-400 font-sans"
         />
       </div>
 
-      {/* Categories Pills */}
+      {/* Category Pills */}
       <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-4 scrollbar-none">
         {CATEGORIES.map((cat) => (
           <button
             key={cat.id}
             onClick={() => onChange({ ...filters, category: cat.id })}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition ${
+            className={`px-4 py-2 rounded-full text-xs transition tracking-wide ${
               filters.category === cat.id
-                ? 'bg-slate-900 text-white shadow-sm'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                ? 'bg-stone-900 text-stone-100 font-medium'
+                : 'bg-stone-100/70 text-stone-600 hover:bg-stone-200/70'
             }`}
           >
             {cat.label}
@@ -56,13 +56,13 @@ export default function Filters({ filters, onChange }) {
       </div>
 
       {/* Selects: Difficulty & Status */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3 border-t border-slate-100 text-xs">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3 border-t border-stone-100 text-xs">
         <div className="flex items-center gap-2">
-          <span className="text-slate-400 font-medium">Складність:</span>
+          <span className="text-stone-400 uppercase tracking-wider text-[10px]">Складність:</span>
           <select
             value={filters.difficulty}
             onChange={(e) => onChange({ ...filters, difficulty: e.target.value })}
-            className="flex-1 py-1.5 px-3 rounded-lg border border-slate-200 bg-white text-slate-700 text-xs focus:outline-none focus:border-amber-500"
+            className="flex-1 py-2 px-3 rounded-lg border border-stone-200 bg-white text-stone-700 text-xs focus:outline-none focus:border-stone-800"
           >
             {DIFFICULTIES.map((d) => (
               <option key={d.id} value={d.id}>{d.label}</option>
@@ -71,11 +71,11 @@ export default function Filters({ filters, onChange }) {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-slate-400 font-medium">Статус:</span>
+          <span className="text-stone-400 uppercase tracking-wider text-[10px]">Стан:</span>
           <select
             value={filters.status}
             onChange={(e) => onChange({ ...filters, status: e.target.value })}
-            className="flex-1 py-1.5 px-3 rounded-lg border border-slate-200 bg-white text-slate-700 text-xs focus:outline-none focus:border-amber-500"
+            className="flex-1 py-2 px-3 rounded-lg border border-stone-200 bg-white text-stone-700 text-xs focus:outline-none focus:border-stone-800"
           >
             {STATUSES.map((s) => (
               <option key={s.id} value={s.id}>{s.label}</option>

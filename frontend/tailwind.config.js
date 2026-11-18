@@ -6,16 +6,19 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+      },
       colors: {
-        brand: {
-          50: '#f8fafc',
-          100: '#f1f5f9',
-          500: '#334155',
-          600: '#1e293b',
-          900: '#0f172a',
-          accent: '#2563eb',
-          warm: '#ea580c',
-          gold: '#eab308'
+        memorial: {
+          paper: '#fafaf9',
+          border: '#e7e5e4',
+          subtle: '#78716c',
+          text: '#1c1917',
+          candle: '#c2410c',
+          candleLight: '#fef3c7',
+          deep: '#0c0a09',
         }
       }
     },
