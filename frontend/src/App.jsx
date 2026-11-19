@@ -248,7 +248,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
             <Flame className="w-4 h-4 text-amber-600" />
-            <span className="font-serif text-lg font-medium text-stone-900 not-italic">Жива Пам'ять</span>
+            <span className="font-serif text-lg font-medium text-stone-900 not-italic">zdiysny</span>
             <span className="text-stone-400">— культура вшанування пам'яті через вчинки</span>
           </div>
 

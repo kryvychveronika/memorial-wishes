@@ -14,7 +14,7 @@ export default function Hero({ onOpenAddWish, onScrollToCatalog }) {
         </div>
 
         <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-normal tracking-tight leading-[1.1] text-stone-100 mb-8 max-w-3xl mx-auto">
-          Кожна нездійснена мрія має бути <span className="italic text-amber-200/90 font-light">дожита</span>
+          Ми робимо те, що хотіли <span className="italic text-amber-200/90 font-light">зробити вони</span>
         </h1>
 
         <p className="text-base sm:text-lg text-stone-400 leading-relaxed max-w-2xl mx-auto mb-10 font-light font-sans">

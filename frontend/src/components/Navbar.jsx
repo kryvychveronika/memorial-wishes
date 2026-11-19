@@ -13,10 +13,10 @@ export default function Navbar({ user, onOpenAuth, onLogout, onOpenAddWish, stat
             </div>
             <div>
               <span className="font-serif text-2xl font-semibold tracking-tight text-stone-900 block leading-tight">
-                Жива Пам'ять
+                zdiysny
               </span>
               <span className="text-[11px] text-stone-500 font-normal tracking-wide uppercase">
-                Простір вшанування через дію
+                Здійсни те, що хотіли вони
               </span>
             </div>
           </div>
